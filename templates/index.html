@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Agora Web Sample</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/main.css')}}">
+<script src="{{ url_for('static', filename='build/AgoraRTCSDK-2.6.1.js')}}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery.js')}}"></script>
+
+<!-- For Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+<!-- <div id="div_device" class="panel panel-default">
+<div class="select">
+<label for="audioSource">Audio source: </label><select id="audioSource"></select>
+</div>
+<div class="select">
+<label for="videoSource">Video source: </label><select id="videoSource"></select>
+</div>
+</div> -->
+
+
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Collaborative VDocs</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="col-xs-4">
+         <div id="div_device" class="form-group">
+             <label for="audioSource">Audio source: </label><select id="audioSource" class="custom-select custom-select-sm"></select>
+         </div>
+       </div>
+       <div class="col-xs-4">
+          <div id="div_device" class="form-group">
+              <label for="videoSource">Video source: </label><select id="videoSource" class="custom-select custom-select-sm"></select>
+          </div>
+       </div>
+       <div class="col-xs-1">
+       </div>
+      <form class="form-inline my-2 my-lg-0">
+        <button type="button" class="btn btn-link">Login</button>
+        <button type="button" class="btn btn-link">Logout</button>
+      </form>
+    </div>
+  </nav>
+</div>
+
+<!-- <div class="container">
+  <div class="row">
+     <div class="col-xs-2">
+        <div id="div_device" class="form-group">
+            <label for="audioSource">Audio source: </label><select id="audioSource" class="custom-select custom-select-sm"></select>
+        </div>
+      </div>
+      <div class="col-xs-2">
+         <div id="div_device" class="form-group">
+             <label for="videoSource">Video source: </label><select id="videoSource" class="custom-select custom-select-sm"></select>
+         </div>
+      </div>
+  </div>
+</div> -->
+
+
+
+
+
+
+<!-- OLD CODE FOR APP ID FORM -->
+
+<!-- <div id="div_join" class="panel panel-default">
+<div class="panel-body">
+App ID: <input id="appId" type="text" value="" size="36"></input>
+Channel: <input id="channel" type="text" value="1000" size="4"></input>
+Host: <input id="video" type="checkbox" checked></input>
+<button id="join" class="btn btn-primary" onclick="join()">Join</button>
+<button id="leave" class="btn btn-primary" onclick="leave()">Leave</button>
+ </div>
+</div> -->
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      <div class="input-group">
+        <input type="text" class="form-control" value="1000"  id="channel" size="4">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Channel</span>
+        </div>
+      </div>
+    </div>
+    <div class="col col-lg-2">
+      <div class="checkbox">
+      <label><input type="checkbox" id="video"checked>Host</label>
+    </div>
+    </div>
+    <div class="col-md-auto">
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Enter the Chat ID" id="appId">
+          <div class="input-group-append">
+              <button type="submit" id="join" class="btn btn-primary" onclick="join()">Join</button>
+              <button type="reset" id="leave" class="btn btn-danger" onclick="leave()">Leave</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OLD CODE FOR CONTENT-->
+
+<!-- <div style="margin-left:800px; margin-top:200px;">
+<iframe src="https://docs.google.com/document/d/1tqwxPPCM9nu9xcMCLLB6WR0yp8NNwYJyArfo0bDKQZ8/edit" height="500" width="600"></iframe>
+</div>
+
+<div id="video" style="margin-top:10px;">
+    <div id="agora_local" style="float:right;width:210px;height:147px;display:inline-block;"></div>
+</div>
+
+<div style="float:right;">
+<button id="leave" class="w3-button w3-xlarge w3-circle" style="border: 2px solid black; " onclick="leave()"><img src="https://cdn2.iconfinder.com/data/icons/sharpicons-phone-communication/32/sharpicons_drop-call-512.png" style="width:20px; height:20px;"></button>
+<button id="mute" class="w3-button w3-xlarge w3-circle" style="border: 2px solid black; margin-left:10px;" onclick="enableMute()" ><img src="https://cdn2.iconfinder.com/data/icons/multimedia-music-audio-video-and-photography-vol-3/480/multimedia_music_photography_audio_media_video_Mute_button-1-512.png" style="width:20px; height:20px;"></button>
+<button id="muteVideo" class="w3-button w3-xlarge w3-circle" style="border: 2px solid black; margin-left:10px;" onclick="muteVideo()" ><img src="https://cdn4.iconfinder.com/data/icons/streamline-multimedia-1/512/Camera-Mute-512.png" style="width:20px; height:20px;"></button>
+</div> -->
+
+<div class="container">
+  <div class="row">
+    <br/>
+    <br/>
+
+  </div>
+</div>
+
+<div class="container" id="welcomeDiv" style="display:none;">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="row">
+	  <div>
+              <button id="leave" class="w3-button w3-xlarge w3-circle" style="margin-left:7px;" onclick="leave()"><img src="https://cdn2.iconfinder.com/data/icons/sharpicons-phone-communication/32/sharpicons_drop-call-512.png" style="width:15px; height:15px;"></button>
+              <button id="mute" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="muteAudio()" ><img src="https://cdn2.iconfinder.com/data/icons/multimedia-music-audio-video-and-photography-vol-3/480/multimedia_music_photography_audio_media_video_Mute_button-1-512.png" style="width:15px; height:15px;"></button>
+			  <button id="mute" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="unmuteAudio()" ><img src="https://cdn4.iconfinder.com/data/icons/web-essential-4/64/47-web_essential-128.png" style="width:15px; height:15px;"></button>
+			  <button id="muteVideo" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="muteVideo()"><img src="https://cdn4.iconfinder.com/data/icons/streamline-multimedia-1/512/Camera-Mute-512.png" style="width:15px; height:15px;"></button>
+			  <button id="unmuteVideo" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="unmuteVideo()"><img src="https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/video-128.png" style="width:15px; height:15px;"></button>
+	</div>
+        <div id="video" style="margin:1;">
+            <div id="agora_local" style="float:left;width:350px;height:250px; margin-down:50px;">
+            </div>
+            
+        </div>
+      </div>
+      <div class="row" ></div>
+    </div>
+
+    <div class="col-lg-7" style="margin-left:80px;">
+      <iframe src="https://docs.google.com/document/d/1tqwxPPCM9nu9xcMCLLB6WR0yp8NNwYJyArfo0bDKQZ8/edit" height="600" width="800"></iframe>
+    </div>
+  </div>
+</div>
+
+
+<script language="javascript">
+
+if(!AgoraRTC.checkSystemRequirements()) {
+  alert("Your browser does not support WebRTC!");
+}
+
+/* select Log type */
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.NONE);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.ERROR);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.WARNING);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.INFO);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.DEBUG);
+
+/* simulated data to proof setLogLevel() */
+AgoraRTC.Logger.error('this is error');
+AgoraRTC.Logger.warning('this is warning');
+AgoraRTC.Logger.info('this is info');
+AgoraRTC.Logger.debug('this is debug');
+
+var client, localStream, camera, microphone;
+
+var audioSelect = document.querySelector('select#audioSource');
+console.log("Audio sources are: " + audioSelect)
+var videoSelect = document.querySelector('select#videoSource');
+
+function join() {
+  document.getElementById("join").disabled = true;
+  document.getElementById("video").disabled = true;
+  var channel_key = null;
+
+  console.log("Init AgoraRTC client with App ID: " + appId.value);
+  client = AgoraRTC.createClient({mode: 'live'});
+  client.init(appId.value, function () {
+    console.log("AgoraRTC client initialized");
+    client.join(channel_key, channel.value, null, function(uid) {
+      console.log("User " + uid + " join channel successfully");
+
+      if (document.getElementById("video").checked) {
+        camera = videoSource.value;
+        microphone = audioSource.value;
+        localStream = AgoraRTC.createStream({streamID: uid, audio: true, cameraId: camera, microphoneId: microphone, video: document.getElementById("video").checked, screen: false});
+        //localStream = AgoraRTC.createStream({streamID: uid, audio: false, cameraId: camera, microphoneId: microphone, video: false, screen: true, extensionId: 'minllpmhdgpndnkomcoccfekfegnlikg'});
+        if (document.getElementById("video").checked) {
+          localStream.setVideoProfile('480p_1');
+        }
+
+        // The user has granted access to the camera and mic.
+        localStream.on("accessAllowed", function() {
+          console.log("accessAllowed");
+        });
+
+        // The user has denied access to the camera and mic.
+        localStream.on("accessDenied", function() {
+          console.log("accessDenied");
+        });
+
+        localStream.init(function() {
+          console.log("getUserMedia successfully");
+          localStream.play('agora_local');
+
+          client.publish(localStream, function (err) {
+            console.log("Publish local stream error: " + err);
+          });
+
+          client.on('stream-published', function (evt) {
+            console.log("Publish local stream successfully");
+          });
+        }, function (err) {
+          console.log("getUserMedia failed", err);
+        });
+      }
+    }, function(err) {
+      console.log("Join channel failed", err);
+    });
+  }, function (err) {
+    console.log("AgoraRTC client init failed", err);
+  });
+
+  channelKey = "";
+  client.on('error', function(err) {
+    console.log("Got error msg:", err.reason);
+    if (err.reason === 'DYNAMIC_KEY_TIMEOUT') {
+      client.renewChannelKey(channelKey, function(){
+        console.log("Renew channel key successfully");
+      }, function(err){
+        console.log("Renew channel key failed: ", err);
+      });
+    }
+  });
+
+
+  client.on('stream-added', function (evt) {
+    var stream = evt.stream;
+    console.log("New stream added: " + stream.getId());
+    console.log("Subscribe ", stream);
+    client.subscribe(stream, function (err) {
+      console.log("Subscribe stream failed", err);
+    });
+  });
+
+  client.on('stream-subscribed', function (evt) {
+    var stream = evt.stream;
+    console.log("Subscribe remote stream successfully: " + stream.getId());
+    if ($('div#video #agora_remote'+stream.getId()).length === 0) {
+      $('div#video').append('<div id="agora_remote'+stream.getId()+'" style="float:left; width:350px;height:250px;display:inline-block;"></div>');
+    }
+    stream.play('agora_remote' + stream.getId());
+  });
+
+  client.on('stream-removed', function (evt) {
+    var stream = evt.stream;
+    stream.stop();
+    $('#agora_remote' + stream.getId()).remove();
+    console.log("Remote stream is removed " + stream.getId());
+  });
+
+  client.on('peer-leave', function (evt) {
+    var stream = evt.stream;
+    if (stream) {
+      stream.stop();
+      $('#agora_remote' + stream.getId()).remove();
+      console.log(evt.uid + " leaved from this channel");
+    }
+  });
+
+	client.on('mute-audio', function (evt) {
+	  console.log("Remote stream: " +  evt.uid + "has muted audio");
+	});
+
+	client.on("unmute-audio", function (evt) {
+	  console.log("Remote stream: " +  evt.uid + "has muted audio");
+	});
+
+	// show user icon whenever a remote has disabled their video
+	client.on('mute-video', function (evt) {
+	  console.log("Remote stream: " +  evt.uid + "has muted video");
+	});
+
+	client.on("unmute-video", function (evt) {
+	  console.log("Remote stream: " +  evt.uid + "has un-muted video");
+	});
+
+
+  document.getElementById('welcomeDiv').style.display = "block";
+
+}
+
+function leave() {
+  document.getElementById("leave").disabled = true;
+  client.leave(function () {
+    console.log("Leavel channel successfully");
+  }, function (err) {
+    console.log("Leave channel failed");
+  });
+  document.getElementById('welcomeDiv').style.display = "none";
+  window.parent.location = window.parent.location.href;
+
+}
+
+function publish() {
+  document.getElementById("publish").disabled = true;
+  document.getElementById("unpublish").disabled = false;
+  client.publish(localStream, function (err) {
+    console.log("Publish local stream error: " + err);
+  });
+}
+
+function unpublish() {
+  document.getElementById("publish").disabled = false;
+  document.getElementById("unpublish").disabled = true;
+  client.unpublish(localStream, function (err) {
+    console.log("Unpublish local stream failed" + err);
+  });
+}
+function muteAudio() {
+var video =document.getElementById("video");
+video.disabled=true;
+video.muted=true;
+localStream.muteAudio();
+}
+
+function unmuteAudio() {
+var video =document.getElementById("video");
+video.disabled=true;
+video.muted=true;
+localStream.unmuteAudio();
+}
+function muteVideo(){
+console.log('mute video');
+var video =document.getElementById("video");
+video.disabled=true;
+video.muted=true;
+localStream.muteVideo();
+}
+function unmuteVideo(){
+console.log('mute video');
+var video =document.getElementById("video");
+video.disabled=false;
+video.muted=false;
+localStream.unmuteVideo();
+}
+function getDevices() {
+  AgoraRTC.getDevices(function (devices) {
+    for (var i = 0; i !== devices.length; ++i) {
+      var device = devices[i];
+      console.log('###Printing all devices:', devices[i]);
+      var option = document.createElement('option');
+      option.value = device.deviceId;
+      if (device.kind === 'audioinput') {
+        option.text = device.label || 'microphone ' + (audioSelect.length + 1);
+        audioSelect.appendChild(option);
+      } else if (device.kind === 'videoinput') {
+        option.text = device.label || 'camera ' + (videoSelect.length + 1);
+        videoSelect.appendChild(option);
+      } else {
+        console.log('Some other kind of source/device: ', device);
+      }
+    }
+    devices[i] = "none";
+  });
+}
+
+//audioSelect.onchange = getDevices;
+//videoSelect.onchange = getDevices;
+getDevices();
+
+</script>
+</body>
+</html>
