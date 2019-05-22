@@ -407,16 +407,18 @@ video.muted=false;
 localStream.unmuteVideo();
 }
 
+/*
 function getName(){
 	var title = prompt("Please provide","Untitled Document");
 	if(title != null){
 		document.getElementById("demo").innerHTML = title;
 	}
 }
+*/
 
 function createDoc(){
-	var name=getName();
-	const Url = 'https://docs.googleapis.com/v1/documents?title=name';
+	//var Test="testDoc";
+	const Url = 'https://docs.googleapis.com/v1/documents?title=Test';
 	const otherParam = {
 	headers:{
 		"content-type":"application/json; charset=UTF-8"
