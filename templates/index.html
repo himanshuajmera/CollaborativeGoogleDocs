@@ -10,9 +10,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='vendor/main.css')}}">
 <script src="{{ url_for('static', filename='build/AgoraRTCSDK-2.6.1.js')}}"></script>
 <script src="{{ url_for('static', filename='vendor/jquery.js')}}"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <!-- For Bootstrap -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -20,8 +20,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-signin-client_id" content="766467620513-tleag6452ec6s1kdu4tblhclrkdl8gvm.apps.googleusercontent.com">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<meta name="google-signin-client_id" content="766467620513-tleag6452ec6s1kdu4tblhclrkdl8gvm.apps.googleusercontent.com">
 
 </head>
 
@@ -36,23 +36,7 @@
 </div> -->
 
 
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log("Name: " + profile.getName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
 
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      };
-    </script>
-	
-	
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Collaborative VDocs</a>
@@ -73,9 +57,8 @@
        <div class="col-xs-1">
        </div>
       <form class="form-inline my-2 my-lg-0">
-        <button type="button" class="btn btn-link">Login</button>
-        <button type="button" class="btn btn-link">Logout</button>
-      </form>
+	  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+	  </form>
     </div>
   </nav>
 </div>
@@ -173,6 +156,8 @@ Host: <input id="video" type="checkbox" checked></input>
 			  <button id="mute" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="unmuteAudio()" ><img src="https://cdn4.iconfinder.com/data/icons/web-essential-4/64/47-web_essential-128.png" style="width:15px; height:15px;"></button>
 			  <button id="muteVideo" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="muteVideo()"><img src="https://cdn4.iconfinder.com/data/icons/streamline-multimedia-1/512/Camera-Mute-512.png" style="width:15px; height:15px;"></button>
 			  <button id="unmuteVideo" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="unmuteVideo()"><img src="https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/video-128.png" style="width:15px; height:15px;"></button>
+			  <button id="createDoc" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="createDoc()"><img src="https://cdn0.iconfinder.com/data/icons/feather/96/circle-add-512.png" style="width:15px; height:15px;"></button>
+			  <button id="createDoc" class="w3-button w3-xlarge w3-circle" style="margin-left:5px;" onclick="openDoc()"><img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/folder-open-o-512.png" style="width:15px; height:15px;"></button>
 	</div>
         <div id="video" style="margin:1;">
             <div id="agora_local" style="float:left;width:350px;height:250px; margin-down:50px;">
@@ -184,13 +169,22 @@ Host: <input id="video" type="checkbox" checked></input>
     </div>
 
     <div class="col-lg-7" style="margin-left:80px;">
-      <iframe src="https://docs.google.com/document/d/1tqwxPPCM9nu9xcMCLLB6WR0yp8NNwYJyArfo0bDKQZ8/edit" height="600" width="800"></iframe>
+      <! -- <iframe src="https://docs.google.com/document/d/1tqwxPPCM9nu9xcMCLLB6WR0yp8NNwYJyArfo0bDKQZ8/edit" height="600" width="800"></iframe> -->
     </div>
   </div>
 </div>
 
 
 <script language="javascript">
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log(profile);
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
 
 if(!AgoraRTC.checkSystemRequirements()) {
   alert("Your browser does not support WebRTC!");
@@ -391,6 +385,29 @@ video.disabled=false;
 video.muted=false;
 localStream.unmuteVideo();
 }
+
+function getName(){
+	var title = prompt("Please provide","Untitled Document");
+	if(person != null){
+		document.getElementById("demo").innerHTML = title;
+	}
+}
+
+function createDoc(){
+	var name = getName();
+	fetch('https://docs.googleapis.com/v1/documents', {
+	method: 'POST',
+	body: JSON.stringify({
+    title: name,
+  })
+})
+	
+}
+
+function openDoc(){
+	
+}
+
 function getDevices() {
   AgoraRTC.getDevices(function (devices) {
     for (var i = 0; i !== devices.length; ++i) {
