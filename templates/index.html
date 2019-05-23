@@ -187,7 +187,7 @@ Host: <input id="video" type="checkbox" checked></input>
     </div>
 
     <div class="col-lg-7" style="margin-left:80px;">
-    <iframe id="docLinkDIV" src="" height="600" width="800"></iframe> 
+    <iframe id="docLinkDIV" is="x-frame-bypass" src="" height="600" width="800"></iframe> 
     </div>
   </div>
 </div>
@@ -405,6 +405,7 @@ function postData(url = '', data = {}) {
     .then(response => response.json()); // parses JSON response into native Javascript objects 
 	console.log(typeof response);
 	docID = response.documentId;
+	console.log(docID);
 }
 	
 
