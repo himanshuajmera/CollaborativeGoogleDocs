@@ -186,14 +186,15 @@ Host: <input id="video" type="checkbox" checked></input>
       <div class="row" ></div>
     </div>
 
-    <div class="col-lg-7" style="margin-left:80px;">
-     <iframe src=docLink height="600" width="800"></iframe> -->
+    <div class="col-lg-7" id="docLinkDIV" style="margin-left:80px;">
+     
     </div>
   </div>
 </div>
 
 
 <script language="javascript">
+
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log(profile);
@@ -382,7 +383,7 @@ function getName(){
 function createDoc(){
 	
 	//Try-0
-	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlwSB1uVBewbl2LDuZELq78IrQTn7rbHl8Y3ZVs91QDVuByZzMiavYj-ap9YxMxY6iKbAhD8DLLeJTgRL0bLMv0SLeIlxR0HVVLGeyxRFA__mYdeXxTWQ1lsQQOdhg', {title: 'Test'})
+	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlwSB6jBYnXDqrhL-PntLly-4YENL-WOraRSIvGDS5HBTcfb5TAorUeV0GYpZtU5NNSZL183N6X-HdT4B-V1FctODKArgpNZw7Qo6xmM762noGkyeNed9w08tyjo7g', {title: 'Test'})
   .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
   .catch(error => console.error(error));
 function postData(url = '', data = {}) {
@@ -403,8 +404,11 @@ function postData(url = '', data = {}) {
     .then(response => response.json()); // parses JSON response into native Javascript objects 
 }
 	
-docID = response.documentId
-docLink = "https://docs.google.com/document/d/"+docID+"/edit"
+var docID = response.documentId;
+//var docLink = "https://docs.google.com/document/d/"+docID+"/edit";
+
+var docLinkDIVVar = document.getElementById('docLinkDIV');
+docLinkDIVVar.innerHTML = '<iframe id="displayDoc" src="https://docs.google.com/document/d/"+docID+"/edit" height="600" width="800"></iframe>';
 
 
 	// Try-1
