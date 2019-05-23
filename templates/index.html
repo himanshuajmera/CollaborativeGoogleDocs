@@ -186,8 +186,8 @@ Host: <input id="video" type="checkbox" checked></input>
       <div class="row" ></div>
     </div>
 
-    <div class="col-lg-7" id="docLinkDIV" style="margin-left:80px;">
-     
+    <div class="col-lg-7" style="margin-left:80px;">
+    <iframe id="docLinkDIV" src="" height="600" width="800"></iframe> 
     </div>
   </div>
 </div>
@@ -409,9 +409,8 @@ function postData(url = '', data = {}) {
 	
 
 //var docLink = "https://docs.google.com/document/d/"+docID+"/edit";
-
-var docLinkDIVVar = document.getElementById('docLinkDIV');
-docLinkDIVVar.innerHTML = '<iframe id="displayDoc" src="https://docs.google.com/document/d/"+docID+"/edit" height="600" width="800"></iframe>';
+document.getElementById('docLinkDIV').src="https://docs.google.com/document/d/"+docID+"/edit";
+docLinkDIVVar.innerHTML = '';
 
 
 	// Try-1
