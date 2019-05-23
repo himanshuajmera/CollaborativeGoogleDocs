@@ -187,7 +187,7 @@ Host: <input id="video" type="checkbox" checked></input>
     </div>
 
     <div class="col-lg-7" style="margin-left:80px;">
-      <! -- <iframe src="https://docs.google.com/document/d/1tqwxPPCM9nu9xcMCLLB6WR0yp8NNwYJyArfo0bDKQZ8/edit" height="600" width="800"></iframe> -->
+     <iframe src="https://docs.google.com/document/d/"+docID+"/edit" height="600" width="800"></iframe> -->
     </div>
   </div>
 </div>
@@ -403,7 +403,7 @@ function postData(url = '', data = {}) {
     .then(response => response.json()); // parses JSON response into native Javascript objects 
 }
 	
-	
+docID = response.documentId
 	// Try-1
 	/*var url = 'https://docs.googleapis.com/v1/documents';
 var data = {title: 'example'};
