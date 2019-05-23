@@ -199,6 +199,7 @@ Host: <input id="video" type="checkbox" checked></input>
 
 <script language="javascript">
 var docID;
+
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log(profile);
@@ -411,10 +412,14 @@ function postData(url = '', data = {}) {
 	console.log(docID);
 }
 	
+
 //var docLink = "https://docs.google.com/document/d/"+docID+"/edit";
 document.getElementById('docLinkDIV').src="https://docs.google.com/document/d/"+docID+"/edit";
 //"https://docs.google.com/document/d/"+docID+"/edit&embedded=true"
+
 //"https://docs.google.com/viewer?srcid="+docID+"&pid=explorer&efh=false&a=v&chrome=false&embedded=true"
+
+
 	// Try-1
 	/*var url = 'https://docs.googleapis.com/v1/documents';
 var data = {title: 'example'};
