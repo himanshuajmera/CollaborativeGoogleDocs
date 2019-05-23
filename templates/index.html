@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -148,11 +147,9 @@ Host: <input id="video" type="checkbox" checked></input>
 <!-- <div style="margin-left:800px; margin-top:200px;">
 <iframe src="https://docs.google.com/document/d/1tqwxPPCM9nu9xcMCLLB6WR0yp8NNwYJyArfo0bDKQZ8/edit" height="500" width="600"></iframe>
 </div>
-
 <div id="video" style="margin-top:10px;">
     <div id="agora_local" style="float:right;width:210px;height:147px;display:inline-block;"></div>
 </div>
-
 <div style="float:right;">
 <button id="leave" class="w3-button w3-xlarge w3-circle" style="border: 2px solid black; " onclick="leave()"><img src="https://cdn2.iconfinder.com/data/icons/sharpicons-phone-communication/32/sharpicons_drop-call-512.png" style="width:20px; height:20px;"></button>
 <button id="mute" class="w3-button w3-xlarge w3-circle" style="border: 2px solid black; margin-left:10px;" onclick="enableMute()" ><img src="https://cdn2.iconfinder.com/data/icons/multimedia-music-audio-video-and-photography-vol-3/480/multimedia_music_photography_audio_media_video_Mute_button-1-512.png" style="width:20px; height:20px;"></button>
@@ -197,7 +194,6 @@ Host: <input id="video" type="checkbox" checked></input>
 
 
 <script language="javascript">
-
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log(profile);
@@ -206,42 +202,34 @@ function onSignIn(googleUser) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
-
 if(!AgoraRTC.checkSystemRequirements()) {
   alert("Your browser does not support WebRTC!");
 }
-
 /* select Log type */
 // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.NONE);
 // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.ERROR);
 // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.WARNING);
 // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.INFO);
 // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.DEBUG);
-
 /* simulated data to proof setLogLevel() */
 AgoraRTC.Logger.error('this is error');
 AgoraRTC.Logger.warning('this is warning');
 AgoraRTC.Logger.info('this is info');
 AgoraRTC.Logger.debug('this is debug');
-
 var client, localStream, camera, microphone;
-
 var audioSelect = document.querySelector('select#audioSource');
 console.log("Audio sources are: " + audioSelect)
 var videoSelect = document.querySelector('select#videoSource');
-
 function join() {
   document.getElementById("join").disabled = true;
   document.getElementById("video").disabled = true;
   var channel_key = null;
-
   console.log("Init AgoraRTC client with App ID: " + appId.value);
   client = AgoraRTC.createClient({mode: 'live'});
   client.init(appId.value, function () {
     console.log("AgoraRTC client initialized");
     client.join(channel_key, channel.value, null, function(uid) {
       console.log("User " + uid + " join channel successfully");
-
       if (document.getElementById("video").checked) {
         camera = videoSource.value;
         microphone = audioSource.value;
@@ -250,25 +238,20 @@ function join() {
         if (document.getElementById("video").checked) {
           localStream.setVideoProfile('480p_1');
         }
-
         // The user has granted access to the camera and mic.
         localStream.on("accessAllowed", function() {
           console.log("accessAllowed");
         });
-
         // The user has denied access to the camera and mic.
         localStream.on("accessDenied", function() {
           console.log("accessDenied");
         });
-
         localStream.init(function() {
           console.log("getUserMedia successfully");
           localStream.play('agora_local');
-
           client.publish(localStream, function (err) {
             console.log("Publish local stream error: " + err);
           });
-
           client.on('stream-published', function (evt) {
             console.log("Publish local stream successfully");
           });
@@ -282,7 +265,6 @@ function join() {
   }, function (err) {
     console.log("AgoraRTC client init failed", err);
   });
-
   channelKey = "";
   client.on('error', function(err) {
     console.log("Got error msg:", err.reason);
@@ -294,8 +276,6 @@ function join() {
       });
     }
   });
-
-
   client.on('stream-added', function (evt) {
     var stream = evt.stream;
     console.log("New stream added: " + stream.getId());
@@ -304,7 +284,6 @@ function join() {
       console.log("Subscribe stream failed", err);
     });
   });
-
   client.on('stream-subscribed', function (evt) {
     var stream = evt.stream;
     console.log("Subscribe remote stream successfully: " + stream.getId());
@@ -313,14 +292,12 @@ function join() {
     }
     stream.play('agora_remote' + stream.getId());
   });
-
   client.on('stream-removed', function (evt) {
     var stream = evt.stream;
     stream.stop();
     $('#agora_remote' + stream.getId()).remove();
     console.log("Remote stream is removed " + stream.getId());
   });
-
   client.on('peer-leave', function (evt) {
     var stream = evt.stream;
     if (stream) {
@@ -329,29 +306,21 @@ function join() {
       console.log(evt.uid + " leaved from this channel");
     }
   });
-
 	client.on('mute-audio', function (evt) {
 	  console.log("Remote stream: " +  evt.uid + "has muted audio");
 	});
-
 	client.on("unmute-audio", function (evt) {
 	  console.log("Remote stream: " +  evt.uid + "has muted audio");
 	});
-
 	// show user icon whenever a remote has disabled their video
 	client.on('mute-video', function (evt) {
 	  console.log("Remote stream: " +  evt.uid + "has muted video");
 	});
-
 	client.on("unmute-video", function (evt) {
 	  console.log("Remote stream: " +  evt.uid + "has un-muted video");
 	});
-
-
   document.getElementById('welcomeDiv').style.display = "block";
-
 }
-
 function leave() {
   document.getElementById("leave").disabled = true;
   client.leave(function () {
@@ -361,9 +330,7 @@ function leave() {
   });
   document.getElementById('welcomeDiv').style.display = "none";
   window.parent.location = window.parent.location.href;
-
 }
-
 function publish() {
   document.getElementById("publish").disabled = true;
   document.getElementById("unpublish").disabled = false;
@@ -371,7 +338,6 @@ function publish() {
     console.log("Publish local stream error: " + err);
   });
 }
-
 function unpublish() {
   document.getElementById("publish").disabled = false;
   document.getElementById("unpublish").disabled = true;
@@ -385,7 +351,6 @@ video.disabled=true;
 video.muted=true;
 localStream.muteAudio();
 }
-
 function unmuteAudio() {
 var video =document.getElementById("video");
 video.disabled=true;
@@ -406,7 +371,6 @@ video.disabled=false;
 video.muted=false;
 localStream.unmuteVideo();
 }
-
 /*
 function getName(){
 	var title = prompt("Please provide","Untitled Document");
@@ -415,13 +379,35 @@ function getName(){
 	}
 }
 */
-
 function createDoc(){
 	
-	
-	var url = 'https://docs.googleapis.com/v1/documents';
-var data = {title: 'example'};
+	//Try-0
+	postData('', {title: 'Test'})
+  .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+  .catch(error => console.error(error));
 
+function postData(url = 'https://docs.googleapis.com/v1/documents', data = {}) {
+  // Default options are marked with *
+    return fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json()); // parses JSON response into native Javascript objects 
+}
+	
+	
+	// Try-1
+	/*var url = 'https://docs.googleapis.com/v1/documents';
+var data = {title: 'example'};
 fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
@@ -437,7 +423,7 @@ fetch(url, {
     }).then(res => res.json())
 .then(response => console.log('Success:', JSON.stringify(response)))
 .catch(error => console.error('Error:', error));
-	
+	*/
 	
 	
 	
@@ -451,7 +437,6 @@ fetch(url, {
 	},
 	method : "POST"
 };
-
 fetch(Url,otherParam)
 .then(res=>{console.log(res)})
 .catch(error=>console.log(error))*/
@@ -490,11 +475,9 @@ fetch(Url,otherParam)
 }) */
 	
 }
-
 function openDoc(){
 	
 }
-
 function getDevices() {
   AgoraRTC.getDevices(function (devices) {
     for (var i = 0; i !== devices.length; ++i) {
@@ -515,11 +498,9 @@ function getDevices() {
     devices[i] = "none";
   });
 }
-
 //audioSelect.onchange = getDevices;
 //videoSelect.onchange = getDevices;
 getDevices();
-
 </script>
 </body>
 </html>
