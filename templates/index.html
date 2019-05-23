@@ -187,7 +187,7 @@ Host: <input id="video" type="checkbox" checked></input>
     </div>
 
     <div class="col-lg-7" style="margin-left:80px;">
-     <iframe src="https://docs.google.com/document/d/"+docID+"/edit" height="600" width="800"></iframe> -->
+     <iframe src=docLink height="600" width="800"></iframe> -->
     </div>
   </div>
 </div>
@@ -404,6 +404,9 @@ function postData(url = '', data = {}) {
 }
 	
 docID = response.documentId
+docLink = "https://docs.google.com/document/d/"+docID+"/edit"
+
+
 	// Try-1
 	/*var url = 'https://docs.googleapis.com/v1/documents';
 var data = {title: 'example'};
