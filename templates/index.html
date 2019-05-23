@@ -20,7 +20,7 @@
 
 
 <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
-<script type="module" src="x-frame-bypass.js"></script>
+<script src="https://unpkg.com/x-frame-bypass@1.0.2/x-frame-bypass.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -199,7 +199,6 @@ Host: <input id="video" type="checkbox" checked></input>
 
 <script language="javascript">
 var docID;
-
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log(profile);
@@ -388,7 +387,7 @@ function getName(){
 function createDoc(){
 	
 	//Try-0
-	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlsSB1HcFVRbpyY3enRFmgIvVRJ4wOZylwC07tiMUaUTikX3lr3YOInBFq2m0d4GKs0qpj9Zar6eTRxwdeO8H8ugNvT4a-j4B8bxosFt2n49mJ7MI-pEBd6BPDPv', {title: 'Test'})
+	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlsSB8HXId0CcHZdU1KUDRi9te4SEGVE0I3WMMIxlBCumIHVU-a2sA1zbU726On3p6KlvQCOeQrc1T3NXpd-QIxgBJW3qFOuxUnNmJK2ufOnYmO4D3ToNS5OeRiq', {title: 'Test'})
   .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
   .catch(error => console.error(error));
 function postData(url = '', data = {}) {
@@ -412,14 +411,10 @@ function postData(url = '', data = {}) {
 	console.log(docID);
 }
 	
-
 //var docLink = "https://docs.google.com/document/d/"+docID+"/edit";
 document.getElementById('docLinkDIV').src="https://docs.google.com/document/d/"+docID+"/edit";
 //"https://docs.google.com/document/d/"+docID+"/edit&embedded=true"
-
 //"https://docs.google.com/viewer?srcid="+docID+"&pid=explorer&efh=false&a=v&chrome=false&embedded=true"
-
-
 	// Try-1
 	/*var url = 'https://docs.googleapis.com/v1/documents';
 var data = {title: 'example'};
