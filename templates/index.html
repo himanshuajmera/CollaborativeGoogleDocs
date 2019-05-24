@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>Agora Web Sample</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='vendor/main.css')}}">
-<script src="{{ url_for('static', filename='build/AgoraRTCSDK-2.6.1.js')}}"></script>
-<script src="{{ url_for('static', filename='vendor/jquery.js')}}"></script>
+<link rel="stylesheet" href="/CollaborativeGoogleDocs/static/vendor/jquery.js">
+<link rel="stylesheet" href="/CollaborativeGoogleDocs/static/vendor/main.css">
+<script src="/CollaborativeGoogleDocs/static/build/AgoraRTCSDK-2.6.1.js"></script>
+<script src="/CollaborativeGoogleDocs/static/vendor/jquery.js"></script>
 	
 <script src="https://unpkg.com/x-frame-bypass@1.0.2/x-frame-bypass.js"></script>	
 
@@ -385,7 +385,7 @@ function getName(){
 function createDoc(){
 	
 	//Try-0
-	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlsTB8o1miIe6IEuZPn-IEdrBMm3kCvImq72laqnQT8sw-47ovU1djLiHFd5ctCcjr1dI4JZnA_mh2saYTXr5a5rwfX6bS4Z3fdKeYN_xjJf-1NIgy2s-JP6YbrX', {title: 'Test'})
+	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlsTB6rZSA3BdCUiMH2fxrYiDJ0hhWRprL3bRV4a3NWQ6x2EbG-L3Fvj7E6PO3uUp8ycyv2Jqpcia5-lVUUf1c99ubQAtWfcBXaaEgNINIbu-t6b9CnxKjUcWAbT', {title: 'Test'})
   .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
   .catch(error => console.error(error));
 function postData(url = '', data = {}) {
