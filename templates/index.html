@@ -408,6 +408,9 @@ function postData(url = '', data = {}) {
 	docID = response.documentId;
 	document.getElementById('docLinkDIV').src="https://docs.google.com/document/d/"+docID+"/edit";
 }
+	console.log(docID);
+	console.log("https://docs.google.com/document/d/"+docID+"/edit");
+}
 	
 //var docLink = "https://docs.google.com/document/d/"+docID+"/edit";
 
@@ -482,7 +485,7 @@ fetch(Url,otherParam)
   }) 
 }) */
 	
-}
+
 function openDoc(){
 	
 }
