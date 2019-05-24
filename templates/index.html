@@ -385,8 +385,8 @@ function getName(){
 function createDoc(){
 	
 	//Try-0
-	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlsTBx_nSvEEdTVnodjVLhj0d5ZWa85oRYnPNMTN7o4FCnOkU2W5XlovJ4Yp6RWrniToETh6rFjy4WuoFerm7lwWcrHS-HC8-u2QQvaox8Bi8A1ZsD8f66Tp5rAP', {title: 'Test'})
-  .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+	postData('https://docs.googleapis.com/v1/documents?access_token=ya29.GlsTB91ifzVRjM6qkNU8KK2OcXNZZ9yD97_dc-xE2e3YWz3cx56HuWXJaZVFujJ7pp1oGmcipSCRDtEKpssLN0_HlYCa9JDfqe1avw11_GJFK9z0rLsGAKqCJ6Ny', {title: 'Test'})
+  .then(data => (document.getElementById('docLinkDIV').src="https://docs.google.com/document/d/"+JSON.stringify(data.documentId).replace(/['"]+/g, '')+"/edit")) // JSON-string from `response.json()` call
   .catch(error => console.error(error));
 function postData(url = '', data = {}) {
   // Default options are marked with *
