@@ -4,12 +4,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+   
 <title>Agora Web Sample</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='vendor/main.css')}}">
 <script src="{{ url_for('static', filename='build/AgoraRTCSDK-2.6.1.js')}}"></script>
 <script src="{{ url_for('static', filename='vendor/jquery.js')}}"></script>
+<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
 
 <!-- For Bootstrap -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -17,7 +19,86 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	      // The Browser API key obtained from the Google API Console.
+      var developerKey = 'AIzaSyD_dDEt8zZAUVjQUohztoxkms2dhaHCvj4';
 
+      // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+      var clientId = '766467620513-tleag6452ec6s1kdu4tblhclrkdl8gvm.apps.googleusercontent.com';
+
+      // Scope to use to access user's photos.
+      var scope = 'https://www.googleapis.com/auth/drive.file';
+
+      var pickerApiLoaded = false;
+      var oauthToken;
+	
+      function onApiLoad() {
+        // Use the API Loader script to load the Authentication script.
+        gapi.load('auth', {'callback': onAuthApiLoad});
+
+        // Use the API Loader script to load the google.picker script.
+        gapi.load('picker', {'callback': onPickerApiLoad});
+      }
+/*	function onAuthApiLoad() {
+        var authBtn = document.getElementById('auth');
+        authBtn.disabled = false;
+        authBtn.addEventListener('click', function() {
+          gapi.auth2.init({ client_id: clientId }).then(function(googleAuth) {
+            googleAuth.signIn({ scope: scope }).then(function(result) {
+              handleAuthResult(result.getAuthResponse());
+            })
+          })
+        });
+      } */
+	function onAuthApiLoad() {
+      window.gapi.auth.authorize(
+          {
+            'client_id': clientId,
+            'scope': scope,
+            'immediate': false
+          },
+          handleAuthResult);
+    }
+
+      function onPickerApiLoad() {
+        pickerApiLoaded = true;
+        createPicker();
+      }
+
+      function handleAuthResult(authResult) {
+        if (authResult && !authResult.error) {
+          oauthToken = authResult.access_token;
+          createPicker();
+        }
+      }
+	// Create and render a Picker object for picking user Photos.
+	function createPicker() {
+        var picker = new google.picker.PickerBuilder().
+            addView(google.picker.ViewId.DOCS).
+            setOAuthToken(oauthToken).
+            setDeveloperKey(developerKey).
+            setCallback(pickerCallback).
+            build();
+        picker.setVisible(true);
+    }
+	
+	    // A simple callback implementation.
+    function pickerCallback(data) {
+      var url = 'nothing';
+      if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+        var doc = data[google.picker.Response.DOCUMENTS][0];
+        url = doc[google.picker.Document.URL];
+      }
+      var message = 'You picked: ' + url;
+      document.getElementById('result').innerHTML = message;
+    }
+	
+	
+    </script>
+    <!-- Load the Google API Loader script. -->
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+	
+	
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
